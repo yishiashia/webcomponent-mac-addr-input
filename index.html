@@ -7,10 +7,23 @@
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+
+  <!-- polyfill -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.6.0/webcomponents-loader.min.js"></script>
+  <!-- end of polyfill -->
+
+  <style>
+    input {
+      background-color: yellow;
+    }
+  </style>
 </head>
 <body>
   <template id="mac-input-template">
     <style>
+      input {
+        max-width: 30px;
+      }
     </style>
     <p>Please enter mac address below</p>
     <div class="wrapper">
@@ -110,10 +123,15 @@
     }) ();
     </script>
 
+  <label for="">
+    Input outside shadow dom, the <font color="red">max-width</font> style is the default value.<br>
+    And the background is <font color="blue">yellow</font>.
+  </label><br>
+  <input type="text" placeholder="" />
+
+  <br /><br />
   <mac-input onchange="document.getElementById('mac_input').value = this.value"></mac-input>
   <input id="mac_input" type="hidden" />
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.20/webcomponents.min.js"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.6.0/webcomponents-loader.min.js"></script>
 
 </body>
 </html>
