@@ -15,16 +15,12 @@
   <style>
     input {
       background-color: yellow;
+      height: 60px;
     }
   </style>
 </head>
 <body>
   <template id="mac-input-template">
-    <style>
-      input {
-        max-width: 30px;
-      }
-    </style>
     <p>Please enter mac address below</p>
     <div class="wrapper">
       <input type="text" id="in_0" maxlength="2">-
@@ -124,14 +120,17 @@
     </script>
 
   <label for="">
-    Input outside shadow dom, the <font color="red">max-width</font> style is the default value.<br>
-    And the background is <font color="blue">yellow</font>.
+    Input outside shadow dom, setting a global style with <font color="red">height: 60px</font>,<br>
+    and the background is <font color="blue">yellow</font>.
   </label><br>
   <input type="text" placeholder="" />
 
   <br /><br />
-  <mac-input onchange="document.getElementById('mac_input').value = this.value"></mac-input>
-  <input id="mac_input" type="hidden" />
+  <fieldset>
+    <legend>Inside shadow dom:</legend>
+    <mac-input onchange="document.getElementById('mac_input').value = this.value"></mac-input>
+    <input id="mac_input" type="hidden" />
+  </fieldset>
 
 </body>
 </html>

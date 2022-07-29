@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MAC input component</title>
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+
+  <!-- Style -->
+  <style>
+    input {
+      max-width: 50px;
+      background-color: yellow;
+    }
+  </style>
+  <!-- Style -->
+
+  <!-- JavaScript -->
+  <script>
+    $( document ).ready(function() {
+
+      function _onKeyDown(e) {
+        var input_index = parseInt(e.target.id.substr(e.target.id.length - 1));
+        var keyin = parseInt(e.which || e.keyCode);
+        if(!isNaN(keyin)) {
+          if(keyin == 8 && e.target.value == '') {
+            if(input_index > 0) {
+              //console.log(input_index);
+              inputSlot[input_index - 1].focus();
+              inputSlot[input_index - 1].dispatchEvent(new KeyboardEvent('keypress', {'code': 8}));
+            }
+          }
+        }
+      }
+
+      function _onKeyInput(e) {
+        var input_index = parseInt(e.target.id.substr(e.target.id.length - 1));
+        mac_str[input_index] = '';
+        for (var i = 0; i < e.target.value.length; i++) {
+          if(valid_char.includes(e.target.value.charAt(i))) {
+            mac_str[input_index] += e.target.value.charAt(i);
+          }
+        }
+        if(e.target.value.length != mac_str[input_index].length) {
+          fail_count += 1;
+          if(fail_count % 3 == 0) {
+            alert("Please valid mac address character (a-z, A-Z or 0-9)");
+          }
+        }
+        e.target.value = mac_str[input_index];
+        if(e.target.value.length == 2) {
+          if(input_index < 5) {
+            inputSlot[input_index + 1].focus();
+          }
+        }
+        var mac_all = mac_str.join('-');
+        document.getElementById("mac_input").value = mac_all;
+
+        return;
+      }
+
+      let mac_str = ['', '', '', '', '', ''];
+      let inputSlot = [];
+      let fail_count = 0;
+      const valid_char = ['a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+      inputSlot[0] = document.querySelector('input:nth-child(1)');
+      inputSlot[1] = document.querySelector('input:nth-child(2)');
+      inputSlot[2] = document.querySelector('input:nth-child(3)');
+      inputSlot[3] = document.querySelector('input:nth-child(4)');
+      inputSlot[4] = document.querySelector('input:nth-child(5)');
+      inputSlot[5] = document.querySelector('input:nth-child(6)');
+      inputSlot[0].focus();
+
+      inputSlot.forEach(function(element) {
+        //console.log(mac_input_element._onKeyUp);
+        element.addEventListener('input', _onKeyInput);
+        element.addEventListener('keydown', _onKeyDown);
+      });
+    });
+
+  </script>
+  <!-- JavaScript -->
+
+</head>
+<body>
+
+  <!-- DOM -->
+  <p>Please enter mac address below</p>
+  <div class="wrapper">
+    <input type="text" id="in_0" maxlength="2">-
+    <input type="text" id="in_1" maxlength="2">-
+    <input type="text" id="in_2" maxlength="2">-
+    <input type="text" id="in_3" maxlength="2">-
+    <input type="text" id="in_4" maxlength="2">-
+    <input type="text" id="in_5" maxlength="2">
+  </div>
+
+  <br/>
+  <label>real input:</label><br/>
+  <input id="mac_input" style="max-width: 100%; background-color: white;" type="text" />
+  (This input will have <b>hidden</b> type in practice.)
+  <!-- DOM -->
+
+</body>
+</html>
